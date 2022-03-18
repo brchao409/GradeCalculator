@@ -1,11 +1,13 @@
-import React from 'react';
-import { Typography, Box, AppBar, Toolbar, IconButton, Fab} from '@mui/material';
+import React, {useState} from 'react';
+import { Typography, Box, AppBar, Toolbar, IconButton, Button, Fab} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
-
+import Calculator from './components/Calculator/Calculator';
 import useStyles from './styles';
 
 const App = () => {
+    const [showCalculator, setShowCalculator] = useState(false);
+
 
     const classes = useStyles();
 
@@ -19,10 +21,18 @@ const App = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Grade Calculator
                     </Typography>
+                    <Button onClick={()=>setShowCalculator(!showCalculator)}color="inherit">Calcularor</Button>
+
                 </Toolbar>
             </AppBar>
             <Fab className={classes.addButton} color="secondary" onClick={() => {}}><AddIcon /></Fab>
+            <Box sx={{ml:90}}>
+
+                {showCalculator && <Calculator/>}
+            </Box>
+            
         </Box>
+
     );
 
 }
