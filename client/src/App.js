@@ -26,11 +26,9 @@ const App = () => {
                 </Toolbar>
             </AppBar>
             <Fab className={classes.addButton} color="secondary" onClick={() => {}}><AddIcon /></Fab>
-            <Box sx={{ml:90}}>
-
+            <Box sx={{ml:40}}>
                 {showCalculator && <Calculator/>}
             </Box>
-            
         </Box>
 
     );
