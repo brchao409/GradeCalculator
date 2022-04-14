@@ -89,7 +89,7 @@ const Calculator = () => {
                        <RemoveIcon/>
                    </IconButton>
                    <IconButton onClick={handleAddFields}>
-                       <AddIcon/>
+                      <AddIcon/>
                    </IconButton>
                    </Grid>
                  </Grid>

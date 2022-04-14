@@ -1,15 +1,23 @@
-import React, {useState} from 'react';
-import { Typography, Box, AppBar, Toolbar, IconButton, Button, Fab} from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import { Typography, Box, AppBar, Toolbar, IconButton, Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+
+import { getEntries } from './actions/entries.js';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
 import Calculator from './components/Calculator/Calculator';
 import useStyles from './styles';
+import GradeTable from './components/GradeTable/GradeTable';
 
 const App = () => {
     const [showCalculator, setShowCalculator] = useState(false);
 
 
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getEntries());
+    }, [dispatch]);
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -25,10 +33,10 @@ const App = () => {
 
                 </Toolbar>
             </AppBar>
-            <Fab className={classes.addButton} color="secondary" onClick={() => {}}><AddIcon /></Fab>
             <Box sx={{ml:40}}>
                 {showCalculator && <Calculator/>}
             </Box>
+            <GradeTable />
         </Box>
 
     );
