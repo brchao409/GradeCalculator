@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Typography, Box, AppBar, Toolbar, IconButton, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { getEntries } from './actions/entries.js';
+import { fetchEntries } from './actions/entries.js';
 import MenuIcon from '@mui/icons-material/Menu';
 import Calculator from './components/Calculator/Calculator';
 import useStyles from './styles';
@@ -16,7 +16,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getEntries());
+        dispatch(fetchEntries());
     }, [dispatch]);
 
     return (
