@@ -7,13 +7,76 @@ import { v4 as uuidv4 } from 'uuid';
 import useStyles from './styles';
 
 const Calculator = () => {
-  
+    const [showResults, setShowResults] = useState(false);
+    const [Gpa, setGpa] = useState([{gpa:-1}]);
     const [gradeData,setGradeData] = useState([
-        {courseName: '', grade: '', credits:''},
-        {courseName: '', grade: '', credits:''}]);
+        {id : uuidv4(),courseName: '', grade: '', credits:''}]);
     const classes = useStyles();
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("gradeData",gradeData)
+        setShowResults(true);
+        let gpa =0;
+        for (let course of gradeData) {
+          switch (course.grade) {
+            case 1:
+              gpa += 4.0;
+              break;
+            
+            case 2:
+              gpa += 4.0;
+              break;
+            
+            case 3:
+              gpa += 3.67;
+              break;
+            
+            case 4:
+              gpa += 3.33;
+              break;
+            
+            case 5:
+              gpa += 3.0;
+              break;
+            
+            case 6:
+              gpa += 2.67;
+              break;
+            
+            case 7:
+              gpa += 2.33;
+              break;
+            
+            case 8:
+              gpa += 2.0;
+              break;
+            
+            case 9:
+              gpa += 1.67;
+              break;
+            
+            case 10:
+              gpa += 1.33;
+              break;
+            
+            case 11:
+              gpa += 1.0;
+              break;
+            
+            case 12:
+              gpa += 0.67;
+              break;
+            
+            case 13:
+              gpa += 0.0;
+    
+          }
+        }
+    
+        gpa /= gradeData.length;
+    
+        
+        setGpa({gpa:Math.round(gpa * 100) / 100});
 
     }
     const handleChangeInput = (id, event) => {
@@ -29,15 +92,20 @@ const Calculator = () => {
         setGradeData([...gradeData, { id: uuidv4(),  courseName: '', grade: '', credits:''}])
       }
     
-      const handleRemoveFields = id => {
+    const handleRemoveFields = id => {
         const values  = [...gradeData];
         values.splice(values.findIndex(value => value.id === id), 1);
         setGradeData(values);
-      }
-    const clear = () =>{
-
-
     }
+    const clear = () =>{
+      setGradeData([
+        {id : uuidv4(),courseName: '', grade: '', credits:''}]);
+    }
+    const Results = () => (
+      <div id="results" className="search-results">
+        {Gpa.gpa >= 0.0 ? <p>Your GPA is <strong>{Gpa.gpa}</strong>.</p> : ""}
+      </div>
+    )
     return(
         <Paper className = {classes.paper}>
          <Typography align = "center" variant="h6">Calculate your GPA</Typography>
@@ -46,24 +114,31 @@ const Calculator = () => {
                  <Container key={data.id}>
                  <Grid container>
                    <Grid item xs={4}>
-                   <TextField name="courseName" variant = "outlined" label = "Course Name" fullWidthvalue = {gradeData.courseName}onChange = {event => handleChangeInput(data.id, event)}/>
+                   <TextField name="courseName" variant = "outlined" label = "Course Name" value = {gradeData.courseName}onChange = {event => handleChangeInput(data.id, event)}/>
                    </Grid>
                    <Grid item xs={2}>
                    <FormControl fullWidth>
                    <InputLabel id="grade">Grade</InputLabel>
                    <Select
-                     labelId="grade"
-                     id="grade"
-                     value={gradeData.grade}
+                     name="grade"
+                     value={data.grade}
                      label="Grade"
                      onChange = {event => handleChangeInput(data.id, event)}
                    >
-                        <MenuItem value={10}>A+</MenuItem>
-                        <MenuItem value={20}>A</MenuItem>
-                        <MenuItem value={30}>A-</MenuItem>
-                        <MenuItem value={40}>B+</MenuItem>
-                        <MenuItem value={50}>B</MenuItem>
-                        <MenuItem value={60}>B-</MenuItem>
+                        <MenuItem value={1}>A+</MenuItem>
+                        <MenuItem value={2}>A</MenuItem>
+                        <MenuItem value={3}>A-</MenuItem>
+                        <MenuItem value={4}>B+</MenuItem>
+                        <MenuItem value={5}>B</MenuItem>
+                        <MenuItem value={6}>B-</MenuItem>
+                        <MenuItem value={7}>C+</MenuItem>
+                        <MenuItem value={8}>C</MenuItem>
+                        <MenuItem value={9}>C-</MenuItem>
+                        <MenuItem value={10}>D+</MenuItem>
+                        <MenuItem value={11}>D</MenuItem>
+                        <MenuItem value={12}>D-</MenuItem>
+                        <MenuItem value={13}>F-</MenuItem>
+
        
                    </Select>
                    </FormControl>
@@ -72,9 +147,8 @@ const Calculator = () => {
                    <FormControl fullWidth>
                    <InputLabel id="credits">Credits</InputLabel>
                    <Select
-                     labelId="credits"
-                     id="credits"
-                     value={gradeData.credits}
+                     name="credits"
+                     value={data.credits}
                      label="Credits"
                      onChange = {event => handleChangeInput(data.id, event)}
                    >
@@ -97,9 +171,11 @@ const Calculator = () => {
 
              )))}
             
-        <Button className={classes.buttonSubmit} variant="contained" color = "primary" size ="large" type = "submit">Calculate</Button>
+        <Button className={classes.buttonSubmit} variant="contained" color = "primary" size ="large" type = "submit" onClick={handleSubmit}>Calculate</Button>
         <Button variant="contained" color = "secondary" size ="small" onClick={clear} >Clear</Button>
          </form>
+         {showResults ? <Results /> : null }
+         
         </Paper>
     );
 }
