@@ -26,3 +26,14 @@ export const createEntry = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const deleteEntry = async (req, res) => {
+    const { id } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No entry with that ID');
+
+    await EntryMessage.findByIdAndRemove(id);
+
+    res.json({ message: 'Entry successfully deleted.' });
+
+}

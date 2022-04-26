@@ -2,8 +2,9 @@ import React, { useEffect} from 'react';
 import {Box} from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { getEntries } from './actions/entries.js';
+import { fetchEntries } from './actions/entries.js';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Calculator from './components/Calculator/Calculator';
 import useStyles from './styles';
 import GradeTable from './components/GradeTable/GradeTable';
@@ -14,7 +15,7 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getEntries());
+        dispatch(fetchEntries());
     }, [dispatch]);
 
     return (

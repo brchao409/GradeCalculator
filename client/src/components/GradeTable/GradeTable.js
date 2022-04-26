@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'; 
 
-import { createEntry } from '../../actions/entries.js';
+import { createEntry, deleteEntry } from '../../actions/entries.js';
 
 const GradeTable = () => {
 
+    
+    
     const entries = useSelector((state) => state.entries);
     const dispatch = useDispatch();
     const [gradeFormData, setGradeFormData] = useState({
         courseName: '',
-        grade: '',
+        grade: 'A',
         credits: ''
     });
+    
+    var totalCredits = entries.map(e => e.credits).reduce((a, b) => a + b, 0);
 
     const handleGradeFormSubmit = (e) => {
         e.preventDefault();
@@ -35,10 +39,15 @@ const GradeTable = () => {
                                 <td>{entry.courseName}</td>
                                 <td>{entry.grade}</td>
                                 <td>{entry.credits}</td>
+                                <td><button onClick={() => dispatch(deleteEntry(entry._id))}>Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <h4>
+                    Total Credits = {totalCredits}<br/>
+                    Credits Remaining = {120 - totalCredits}
+                </h4>
                 <h2>Add Course and Grade</h2>
                 <form onSubmit={handleGradeFormSubmit}>
                     <input
@@ -54,7 +63,7 @@ const GradeTable = () => {
                         value={gradeFormData.grade}
                         onChange={(e) => setGradeFormData({...gradeFormData, grade: e.target.value})}
                     >
-                        <option value="A">A</option>
+                        <option value="A" defaultValue>A</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
                         <option value="B">B</option>
@@ -66,9 +75,13 @@ const GradeTable = () => {
                         <option value="D">D</option>
                         <option value="D-">D-</option>
                         <option value="F">F</option>
+                        <option value="AP">AP</option>
+                        <option value="Pass">Pass</option>
                     </select>
                     <input
-                        type="text"
+                        type="number"
+                        min="1"
+                        max="7"
                         name="credits"
                         required="required"
                         placeholder="Credits..."
