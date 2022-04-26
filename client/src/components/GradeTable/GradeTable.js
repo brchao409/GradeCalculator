@@ -81,7 +81,7 @@ const GradeTable = () => {
                     <input
                         type="number"
                         min="1"
-                        max="4"
+                        max="7"
                         name="credits"
                         required="required"
                         placeholder="Credits..."
