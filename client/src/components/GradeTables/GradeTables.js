@@ -15,7 +15,7 @@ const GradeTables = ({ currentId, setCurrentId }) => {
             <GradeTable currentId={currentId} setCurrentId={setCurrentId}/>
             <h4>
                 Total Credits = {totalCredits}<br/>
-                Credits Remaining = {120 - totalCredits}
+                Credits Remaining = {totalCredits < 120 ? 120 - totalCredits : 0}
             </h4>
             <Form />
         </div>

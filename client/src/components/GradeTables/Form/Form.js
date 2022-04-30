@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux'; 
 
 import { createEntry } from '../../../actions/entries.js';
@@ -11,7 +11,7 @@ const Form = () => {
         semester: '',
         courseName: '',
         grade: 'A',
-        credits: ''
+        credits: '',
     });
 
     const handleGradeFormSubmit = (e) => {
@@ -24,7 +24,7 @@ const Form = () => {
                 semester: '',
                 courseName: '',
                 grade: 'A',
-                credits: ''
+                credits: '',
             }
         );
     }
@@ -77,7 +77,8 @@ const Form = () => {
                 placeholder="Credits..."
                 value={gradeFormData.credits}
                 onChange={(e) => setGradeFormData({...gradeFormData, credits: e.target.value})}
-            /><br/>
+            />
+            <br/>
             <button type="submit">Add</button>
         </form>
         </>
