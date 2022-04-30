@@ -110,7 +110,7 @@ const Course = ({ entry, currentId, setCurrentId }) => {
             <td>
                 {state.showForm ? showForm() : null}
             </td>
-            <td><button onClick={() => dispatch(deleteEntry(entry._id))}>Delete</button></td>
+            <td><button onClick={() => {if (window.confirm('Are you sure you wish to delete this course?')) dispatch(deleteEntry(entry._id))}}>Delete Course</button></td>
         </tr>
         <tr>
             <td><strong>Assignments</strong></td>
