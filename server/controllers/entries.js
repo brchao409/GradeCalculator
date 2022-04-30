@@ -27,6 +27,17 @@ export const createEntry = async (req, res) => {
     }
 }
 
+export const updateEntry = async (req, res) => {
+    const { id: _id } = req.params;
+    const entry = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No entry with that ID');
+
+    const updatedEntry = await EntryMessage.findByIdAndUpdate(_id, entry, {new : true});
+
+    res.json(updatedEntry);
+}
+
 export const deleteEntry = async (req, res) => {
     const { id } = req.params;
 

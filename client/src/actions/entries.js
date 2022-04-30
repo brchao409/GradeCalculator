@@ -29,3 +29,13 @@ export const deleteEntry = (id) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const updateEntry = (id, entry) => async (dispatch) => {
+    try {
+        const {data} = await api.updateEntry(id, entry);
+
+        dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+}
