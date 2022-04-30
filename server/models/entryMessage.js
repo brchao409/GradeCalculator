@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 const entrySchema = mongoose.Schema({
+    semester: String,
     courseName: String,
     grade: String,
-    credits: Number
+    credits: Number,
+    assignments: [{assignment: String, assignmentGradeNumerator: Number, assignmentGradeDenominator: Number}],
 })
 
 const EntryMessage = mongoose.model('EntryMessage', entrySchema);
