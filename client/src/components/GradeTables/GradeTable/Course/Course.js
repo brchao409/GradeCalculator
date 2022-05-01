@@ -5,6 +5,7 @@ import { deleteEntry, fetchEntries, updateEntry } from "../../../../actions/entr
 
 const Course = ({ entry, currentId, setCurrentId }) => {
 
+    const [currentAssignmentId, setCurrentAssignmentId] = useState(null);
     const dispatch = useDispatch();
 
     const [assignmentFormData, setAssignmentFormData] = useState({
@@ -26,7 +27,8 @@ const Course = ({ entry, currentId, setCurrentId }) => {
         tempAssignment: '',
         tempAssignmentGradeNumerator: 0,
         tempAssignmentGradeDenominator: 0,
-        submitted: false
+        submitted: false,
+        deleted: false
     });
 
     const showForm = () => {
@@ -68,16 +70,25 @@ const Course = ({ entry, currentId, setCurrentId }) => {
  
         if(currentId){
             setAssignmentFormData({...assignmentFormData, 
-            assignments: [...assignmentFormData.assignments,  { 
+                assignments: [...assignmentFormData.assignments,  { 
                     assignment: state.tempAssignment,
                     assignmentGradeNumerator: state.tempAssignmentGradeNumerator,
                     assignmentGradeDenominator: state.tempAssignmentGradeDenominator }]
             });
-            console.log(assignmentFormData.assignments);
-            setState({showForm: false});
-            setState({submitted: true});
+            setState({showForm: false, submitted: true});
         }
  
+    }
+
+    const handleAssignmentDelete = () => {
+        console.log(currentAssignmentId);
+        if(currentAssignmentId){
+            console.log(assignmentFormData);
+            setAssignmentFormData({...assignmentFormData, 
+                assignments: entry.assignments.filter((e) => e._id !== currentAssignmentId)
+            });
+            setState({deleted: true});
+        }
     }
 
 
@@ -88,22 +99,30 @@ const Course = ({ entry, currentId, setCurrentId }) => {
     }, [ent]);
 
     useEffect(() => {
-        console.log('state changed', assignmentFormData);
+        
         dispatch(updateEntry(currentId, assignmentFormData));
     }, [assignmentFormData]);
+
+    useEffect(() => {
+        handleAssignmentDelete();
+    }, [currentAssignmentId]);
 
     useEffect(() => {
         dispatch(fetchEntries());
         setState({submitted: false});
     }, [state.submitted === true]);
 
+    useEffect(() => {
+        dispatch(fetchEntries());
+        setState({deleted: false});
+    }, [state.deleted === true]);
 
     return(
        
         <>
         <tr key={entry._id}>
+            <td><strong>{entry.courseName}</strong></td>
             <td>{entry.semester}</td>
-            <td>{entry.courseName}</td>
             <td>{entry.grade}</td>
             <td>{entry.credits}</td>
             <td><button onClick={() => {setCurrentId(entry._id); setState({showForm: true})}}>Add Assignment</button></td>
@@ -121,8 +140,9 @@ const Course = ({ entry, currentId, setCurrentId }) => {
             <td>{entry.assignments.map(e => <li>{e.assignment}</li>)}</td>
             <td>{entry.assignments.map(e => <li>{e.assignmentGradeNumerator}/{e.assignmentGradeDenominator}</li>)}</td>
             <td>{entry.assignments.map(e => <li>{Math.round((e.assignmentGradeNumerator/e.assignmentGradeDenominator)*10000)/100}%</li>)}</td>
+            <td>{entry.assignments.map(e => <li><button onClick={() => {setCurrentId(entry._id);setCurrentAssignmentId(e._id)}}>Delete</button></li>)}</td>
         </tr>
-        <tr>Overall Course Grade: {Math.round((entry.assignments.map(e => (e.assignmentGradeNumerator/e.assignmentGradeDenominator)*10000).reduce((a, b) => a + b, 0))/entry.assignments.length)/100}%</tr>
+        <tr>Overall Course Grade: {entry.assignments.length === 0 ? "--" : Math.round((entry.assignments.map(e => (e.assignmentGradeNumerator/e.assignmentGradeDenominator)*10000).reduce((a, b) => a + b, 0))/entry.assignments.length)/100}%</tr>
         </>
     );
 
