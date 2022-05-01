@@ -5,15 +5,16 @@ import Course from './Course/Course.js';
 
 const GradeTable = ({ currentId, setCurrentId} ) => {
 
-    const entries = useSelector((state) => state.entries);
+    const entries = useSelector((state) => state.entries); 
+    //console.log(entries);
 
     return (
         <div className="app-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>Semester</th>
                             <th>Course Name</th>
+                            <th>Semester</th>
                             <th>Grade</th>
                             <th>Credits</th>
                         </tr>

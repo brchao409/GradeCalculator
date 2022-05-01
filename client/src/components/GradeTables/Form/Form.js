@@ -35,19 +35,19 @@ const Form = () => {
         <form onSubmit={handleGradeFormSubmit}>
             <input
                 type="text"
-                name="semester"
-                required="required"
-                placeholder="Semester..."
-                value={gradeFormData.semester}
-                onChange={(e) => setGradeFormData({...gradeFormData, semester: e.target.value })}
-            />
-            <input
-                type="text"
                 name="courseName"
                 required="required"
                 placeholder="Course Name..."
                 value={gradeFormData.courseName}
                 onChange={(e) => setGradeFormData({...gradeFormData, courseName: e.target.value })}
+            />
+            <input
+                type="text"
+                name="semester"
+                required="required"
+                placeholder="Semester..."
+                value={gradeFormData.semester}
+                onChange={(e) => setGradeFormData({...gradeFormData, semester: e.target.value })}
             />
             <select
                 name="grade"
